@@ -10,6 +10,8 @@ import org.springframework.stereotype.Service;
 
 import com.octobus.article.entity.ArticleEntity;
 import com.octobus.article.model.Article;
+import com.octobus.article.model.ArticleUploadRequest;
+import com.octobus.article.model.ArticleUploadResponse;
 import com.octobus.article.model.Comments;
 import com.octobus.article.model.Point;
 import com.octobus.article.repository.ArticleRepository;
@@ -109,4 +111,21 @@ public class ArticleService {
 		}
 		return totalPoint;
 	}
+	
+	public ArticleUploadResponse uploadArticle(ArticleUploadRequest articleUploadRequest) {
+		ArticleEntity entity = new ArticleEntity();
+		entity.setContentUrl(articleUploadRequest.getContent_url());
+		entity.setCreatedBy(articleUploadRequest.getUserName());
+		entity.setTile(articleUploadRequest.getTitle());
+		entity.setVideo(articleUploadRequest.getVideo());
+		entity.setWhenCreated(LocalDateTime.now());
+		repository.save(entity);
+		
+		ArticleUploadResponse articleUploadResponse=new ArticleUploadResponse();
+		articleUploadResponse.setArticleId(entity.getArticleId());
+		articleUploadResponse.setWhenPosted(entity.getWhenCreated());
+		return articleUploadResponse;
+	}
+	
+	
 }

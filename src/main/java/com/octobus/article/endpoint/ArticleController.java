@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.octobus.article.model.Article;
+import com.octobus.article.model.ArticleUploadRequest;
+import com.octobus.article.model.ArticleUploadResponse;
 import com.octobus.article.model.Comments;
 import com.octobus.article.model.Point;
 import com.octobus.article.service.ArticleService;
@@ -23,8 +25,8 @@ public class ArticleController {
 	private ArticleService service;
 	
 	@PostMapping("site/article/upload")
-	public ResponseEntity<Article> updateArticle(@RequestBody Article arcticle){
-		Article createdArcticle = service.createArticle(arcticle);
+	public ResponseEntity<ArticleUploadResponse> updateArticle(@RequestBody ArticleUploadRequest arcticle){
+		ArticleUploadResponse createdArcticle = service.uploadArticle(arcticle);
 		return new ResponseEntity<>(createdArcticle,HttpStatus.CREATED);
 	}
 	
