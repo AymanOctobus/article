@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<body>
+
+<h1>First Page</h1>
+
+<form method="POST" enctype="multipart/form-data" id="fileUploadForm">
+    <input type="text" name="firstName"/><br/><br/>
+    <input type="file" name="photo"/><br/><br/>
+    <input type="submit" value="Submit" id="btnSubmit"/>
+    <img alt="" src="http://localhost:9080/user/profile/photo/5b9ce5ebdade15318c8986c3/pic.jpg">
+</form>
+
+<h1>Ajax Post Result</h1>
+<pre>
+    <span id="result"></span>
+</pre>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+<script type="text/javascript" src="main.js"></script>
+
+</body>
+</html>

@@ -1,5 +1,9 @@
 package com.octobus.article.entity;
 
+import java.time.LocalDateTime;
+
+import org.springframework.web.multipart.MultipartFile;
+
 public class UserProfileEntity {
 
 	public String id;
@@ -7,12 +11,14 @@ public class UserProfileEntity {
 	private String lastName;
 	private String middleName;
 	private String dob;
-	private String photo;
+	private String photoId;
 	private String emailId;
+	private String myPassword;
 	private boolean isUserActive;
-	private String whenCreated;
-	private String whenUpdated;
-	
+	private LocalDateTime whenCreated;
+	private LocalDateTime whenUpdated;
+	private String city;
+	private String country;
 	
 	public String getId() {
 		return id;
@@ -44,11 +50,12 @@ public class UserProfileEntity {
 	public void setDob(String dob) {
 		this.dob = dob;
 	}
-	public String getPhoto() {
-		return photo;
+	
+	public String getPhotoId() {
+		return photoId;
 	}
-	public void setPhoto(String photo) {
-		this.photo = photo;
+	public void setPhotoId(String photoId) {
+		this.photoId = photoId;
 	}
 	public String getEmailId() {
 		return emailId;
@@ -62,18 +69,34 @@ public class UserProfileEntity {
 	public void setUserActive(boolean isUserActive) {
 		this.isUserActive = isUserActive;
 	}
-	public String getWhenCreated() {
+	public LocalDateTime getWhenCreated() {
 		return whenCreated;
 	}
-	public void setWhenCreated(String whenCreated) {
+	public void setWhenCreated(LocalDateTime whenCreated) {
 		this.whenCreated = whenCreated;
 	}
-	public String getWhenUpdated() {
+	public LocalDateTime getWhenUpdated() {
 		return whenUpdated;
 	}
-	public void setWhenUpdated(String whenUpdated) {
+	public void setWhenUpdated(LocalDateTime whenUpdated) {
 		this.whenUpdated = whenUpdated;
 	}
-	
-	
+	public String getMyPassword() {
+		return myPassword;
+	}
+	public void setMyPassword(String myPassword) {
+		this.myPassword = myPassword;
+	}
+	public String getCity() {
+		return city;
+	}
+	public void setCity(String city) {
+		this.city = city;
+	}
+	public String getCountry() {
+		return country;
+	}
+	public void setCountry(String country) {
+		this.country = country;
+	}
 }

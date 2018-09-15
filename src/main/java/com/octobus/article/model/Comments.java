@@ -1,17 +1,19 @@
 package com.octobus.article.model;
 
+import java.time.LocalDateTime;
+
 public class Comments {
 
-	private String commentedby;
+	private String commentedBy;
 	private String comment;
 	private String profilePhoto;
-	private String commentedDate;
+	private LocalDateTime commentedDate;
 	
-	public String getCommentedby() {
-		return commentedby;
+	public String getCommentedBy() {
+		return commentedBy;
 	}
-	public void setCommentedby(String commentedby) {
-		this.commentedby = commentedby;
+	public void setCommentedBy(String commentedBy) {
+		this.commentedBy = commentedBy;
 	}
 	public String getComment() {
 		return comment;
@@ -25,14 +27,10 @@ public class Comments {
 	public void setProfilePhoto(String profilePhoto) {
 		this.profilePhoto = profilePhoto;
 	}
-	public String getCommentedDate() {
+	public LocalDateTime getCommentedDate() {
 		return commentedDate;
 	}
-	public void setCommentedDate(String commentedDate) {
+	public void setCommentedDate(LocalDateTime commentedDate) {
 		this.commentedDate = commentedDate;
 	}
-	
-	
-	
-	
 }

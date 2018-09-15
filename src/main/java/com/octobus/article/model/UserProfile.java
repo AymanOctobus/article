@@ -1,16 +1,23 @@
 package com.octobus.article.model;
 
+import java.time.LocalDateTime;
+
+import org.springframework.web.multipart.MultipartFile;
+
 public class UserProfile {
 
 	private String firstName;
 	private String lastName;
 	private String middleName;
 	private String dob;
-	private String photo;
+	private MultipartFile photo;
 	private String emailId;
+	private String myPassword;
 	private boolean isUserActive;
-	private String whenCreated;
-	private String whenUpdated;
+	private LocalDateTime whenCreated;
+	private LocalDateTime whenUpdated;
+	private String city;
+	private String country;
 	
 	public String getFirstName() {
 		return firstName;
@@ -36,12 +43,7 @@ public class UserProfile {
 	public void setDob(String dob) {
 		this.dob = dob;
 	}
-	public String getPhoto() {
-		return photo;
-	}
-	public void setPhoto(String photo) {
-		this.photo = photo;
-	}
+	
 	public String getEmailId() {
 		return emailId;
 	}
@@ -54,18 +56,41 @@ public class UserProfile {
 	public void setUserActive(boolean isUserActive) {
 		this.isUserActive = isUserActive;
 	}
-	public String getWhenCreated() {
+	public LocalDateTime getWhenCreated() {
 		return whenCreated;
 	}
-	public void setWhenCreated(String whenCreated) {
+	public void setWhenCreated(LocalDateTime whenCreated) {
 		this.whenCreated = whenCreated;
 	}
-	public String getWhenUpdated() {
+	public LocalDateTime getWhenUpdated() {
 		return whenUpdated;
 	}
-	public void setWhenUpdated(String whenUpdated) {
+	public void setWhenUpdated(LocalDateTime whenUpdated) {
 		this.whenUpdated = whenUpdated;
 	}
-	
+	public MultipartFile getPhoto() {
+		return photo;
+	}
+	public void setPhoto(MultipartFile photo) {
+		this.photo = photo;
+	}
+	public String getMyPassword() {
+		return myPassword;
+	}
+	public void setMyPassword(String myPassword) {
+		this.myPassword = myPassword;
+	}
+	public String getCity() {
+		return city;
+	}
+	public void setCity(String city) {
+		this.city = city;
+	}
+	public String getCountry() {
+		return country;
+	}
+	public void setCountry(String country) {
+		this.country = country;
+	}
 	
 }
