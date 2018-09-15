@@ -8,10 +8,10 @@ public class Article {
 	private String articleId;
 	private String title;
 	private String video;
-	private String content_url;
-	private String content_type;
+	private String contentUrl;
+	private String contentType;
 	private int totalPoint;
-	private String createBy;
+	private String createdBy;
 	private String attitude;
 	private LocalDateTime whenCreated;
 	private List<Comments> comments;
@@ -35,17 +35,17 @@ public class Article {
 	public void setVideo(String video) {
 		this.video = video;
 	}
-	public String getContent_url() {
-		return content_url;
+	public String getContentUrl() {
+		return contentUrl;
 	}
-	public void setContent_url(String content_url) {
-		this.content_url = content_url;
+	public void setContentUrl(String contentUrl) {
+		this.contentUrl = contentUrl;
 	}
-	public String getContent_type() {
-		return content_type;
+	public String getContentType() {
+		return contentType;
 	}
-	public void setContent_type(String content_type) {
-		this.content_type = content_type;
+	public void setContentType(String contentType) {
+		this.contentType = contentType;
 	}
 	public int getTotalPoint() {
 		return totalPoint;
@@ -53,11 +53,11 @@ public class Article {
 	public void setTotalPoint(int totalPoint) {
 		this.totalPoint = totalPoint;
 	}
-	public String getCreateBy() {
-		return createBy;
+	public String getCreatedBy() {
+		return createdBy;
 	}
-	public void setCreateBy(String createBy) {
-		this.createBy = createBy;
+	public void setCreatedBy(String createdBy) {
+		this.createdBy = createdBy;
 	}
 	public String getAttitude() {
 		return attitude;

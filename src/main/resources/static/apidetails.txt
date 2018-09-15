@@ -1,0 +1,42 @@
+@POST
+http://localhost:9080/user/profile/
+{
+    "firstName": "Amit",
+    "lastName": "Kumar",
+    "middleName": "Empty",
+    "dob": "08/07/1989",
+    "emailId": "timacs12@gmail.com",
+    "myPassword":"passw0rd1",
+    "city":"Bangalore",
+    "country":"India"
+}
+
+@POST
+http://localhost:9080/site/article/upload
+{
+    "createdBy" : "timacs12@gmail.com",
+    "title" :"This is first Article",
+    "video" :"Coming soon"
+}
+
+@POST
+http://localhost:9080/site/article/like/5b9d309fdade153e4c21f91e
+{
+    "pointsBy" : "timacs12@gmail.com",
+    "point" :10
+}
+
+@POST
+http://localhost:9080/site/article/comment/5b9d309fdade153e4c21f91e
+{
+    "commentedBy" : "timacs12@gmail.com",
+    "comment" :"This is first comment",
+    "profilePhoto" : "coming soon"
+}
+
+@GET
+http://localhost:9080/site/article/comment/5b9d309fdade153e4c21f91e
+
+
+@GET
+http://localhost:9080/site/articles

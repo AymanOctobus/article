@@ -20,20 +20,22 @@ public class ArticleService {
 	@Autowired
 	private ArticleRepository repository;
 	
-	public Article createArticle(Article arcticle){
+	public Article createArticle(Article article){
 		ArticleEntity entity = new ArticleEntity();
-		entity.setAttitude(arcticle.getAttitude());
-		entity.setComments(arcticle.getComments());
-		entity.setContent_type(arcticle.getContent_type());
-		entity.setContent_url(arcticle.getContent_url());
-		entity.setCreateBy(arcticle.getCreateBy());
-		entity.setPoints(arcticle.getPoints());
-		entity.setTile(arcticle.getTitle());
-		entity.setTotalPoint(arcticle.getTotalPoint());
-		entity.setVideo(arcticle.getVideo());
+		entity.setAttitude(article.getAttitude());
+		entity.setComments(article.getComments());
+		entity.setContentType(article.getContentType());
+		entity.setContentUrl(article.getContentUrl());
+		entity.setCreatedBy(article.getCreatedBy());
+		entity.setPoints(article.getPoints());
+		entity.setTile(article.getTitle());
+		entity.setTotalPoint(article.getTotalPoint());
+		entity.setVideo(article.getVideo());
 		entity.setWhenCreated(LocalDateTime.now());
 		repository.save(entity);
-		return arcticle;
+		article.setArticleId(entity.getArticleId());
+		article.setWhenCreated(entity.getWhenCreated());
+		return article;
 	}
 	
 	public List<Article> getArticles(){
@@ -41,11 +43,12 @@ public class ArticleService {
 		List<Article> articles=new ArrayList<Article>();
 		for (ArticleEntity entity :entities) {
 			Article article=new Article();
+			article.setArticleId(entity.getArticleId());
 			article.setAttitude(entity.getAttitude());
 			article.setComments(entity.getComments());
-			article.setContent_type(entity.getContent_type());
-			article.setContent_url(entity.getContent_url());
-			article.setCreateBy(entity.getCreateBy());
+			article.setContentType(entity.getContentType());
+			article.setContentUrl(entity.getContentUrl());
+			article.setCreatedBy(entity.getCreatedBy());
 			article.setPoints(entity.getPoints());
 			article.setTitle(entity.getTitle());
 			article.setTotalPoint(entity.getTotalPoint());
@@ -56,20 +59,6 @@ public class ArticleService {
 		return articles;
 	}
 	
-	public Article getArticleById(String articleId) {
-		Article article=new Article();
-		return article;
-	}
-	
-	public List<Comments> getCommentsById(String articleId) {
-		List<Comments> comments=new ArrayList<Comments>();
-		return comments;
-	}
-	
-	public Article updateArticle(Article article) {
-		return article;
-	}
-
 	public List<Comments> getCommentsByArticleId(String articleId) {
 		Optional<ArticleEntity> optional = repository.findById(articleId);
 		if(optional.isPresent()){

@@ -22,8 +22,8 @@ public class ArticleController {
 	@Autowired
 	private ArticleService service;
 	
-	@PostMapping("site/article")
-	public ResponseEntity<Article> createArticle(@RequestBody Article arcticle){
+	@PostMapping("site/article/upload")
+	public ResponseEntity<Article> updateArticle(@RequestBody Article arcticle){
 		Article createdArcticle = service.createArticle(arcticle);
 		return new ResponseEntity<>(createdArcticle,HttpStatus.CREATED);
 	}
@@ -51,17 +51,6 @@ public class ArticleController {
 		Comments postedComment = service.postComment(articleId,comment);
 		return new ResponseEntity<>(postedComment,HttpStatus.OK);
 	}
-	
-	
-	@GetMapping("site/article/upload")
-	public ResponseEntity<Article> updateArticle(@RequestBody Article arcticle){
-		Article createdArcticle = service.createArticle(arcticle);
-		return new ResponseEntity<>(createdArcticle,HttpStatus.CREATED);
-	}
-	
-	
-	
-	
 	
 	
 }
