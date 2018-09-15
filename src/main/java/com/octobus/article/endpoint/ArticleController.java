@@ -25,14 +25,14 @@ public class ArticleController {
 	private ArticleService service;
 	
 	@PostMapping("site/article")
-	public ResponseEntity<Object> createArticle(@RequestBody Article arcticle){
-		Article createdArcticle = service.createArcticle(arcticle);
+	public ResponseEntity<Article> createArticle(@RequestBody Article arcticle){
+		Article createdArcticle = service.createArticle(arcticle);
 		return new ResponseEntity<>(createdArcticle,HttpStatus.CREATED);
 	}
 	
 	@GetMapping("site/articles")
 	public ResponseEntity<List<Article>> getArticles(){
-		Article arcticles[] =service.getArticles(emailId);
+		List<Article> arcticles =service.getArticles();
 		return new ResponseEntity<>(arcticles,HttpStatus.OK);
 	}
 	
@@ -43,14 +43,14 @@ public class ArticleController {
 	}
 	
 	@GetMapping("/site/article/comment/{articleId}")
-	public ResponseEntity<List<Comment>> getCommentsById(@PathVariable("articleId") String articleId){
-		Comment[] comments =service.getCommentsById(articleId);
+	public ResponseEntity<List<Comments>> getCommentsById(@PathVariable("articleId") String articleId){
+		List<Comments> comments =service.getCommentsById(articleId);
 		return new ResponseEntity<>(comments,HttpStatus.OK);
 	}
 	
 	@GetMapping("site/article/upload")
 	public ResponseEntity<Article> updateArticle(@RequestBody Article arcticle){
-		Article createdArcticle = service.createArcticle(arcticle);
+		Article createdArcticle = service.createArticle(arcticle);
 		return new ResponseEntity<>(createdArcticle,HttpStatus.CREATED);
 	}
 	
