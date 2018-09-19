@@ -43,13 +43,13 @@ public class ArticleController {
 	}
 	
 	@GetMapping("/site/article/comment/{articleId}")
-	public ResponseEntity<List<Comments>> getCommentsById(@PathVariable("articleId") String articleId){
+	public ResponseEntity<List<Comments>> getComments(@PathVariable("articleId") String articleId){
 		List<Comments> comments =service.getCommentsByArticleId(articleId);
 		return new ResponseEntity<>(comments,HttpStatus.OK);
 	}
 	
 	@PostMapping("/site/article/comment/{articleId}")
-	public ResponseEntity<Comments> getCommentsById(@PathVariable("articleId") String articleId,@RequestBody Comments comment){
+	public ResponseEntity<Comments> postComments(@PathVariable("articleId") String articleId,@RequestBody Comments comment){
 		Comments postedComment = service.postComment(articleId,comment);
 		return new ResponseEntity<>(postedComment,HttpStatus.OK);
 	}

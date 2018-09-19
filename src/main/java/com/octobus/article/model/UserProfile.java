@@ -6,6 +6,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 public class UserProfile {
 
+	private String userId;
 	private String firstName;
 	private String lastName;
 	private String middleName;
@@ -16,9 +17,16 @@ public class UserProfile {
 	private boolean isUserActive;
 	private LocalDateTime whenCreated;
 	private LocalDateTime whenUpdated;
-	private String city;
-	private String country;
+	private City city;
+	private Country country;
 	
+	
+	public String getUserId() {
+		return userId;
+	}
+	public void setUserId(String userId) {
+		this.userId = userId;
+	}
 	public String getFirstName() {
 		return firstName;
 	}
@@ -80,17 +88,16 @@ public class UserProfile {
 	public void setMyPassword(String myPassword) {
 		this.myPassword = myPassword;
 	}
-	public String getCity() {
+	public City getCity() {
 		return city;
 	}
-	public void setCity(String city) {
+	public void setCity(City city) {
 		this.city = city;
 	}
-	public String getCountry() {
+	public Country getCountry() {
 		return country;
 	}
-	public void setCountry(String country) {
+	public void setCountry(Country country) {
 		this.country = country;
 	}
-	
 }

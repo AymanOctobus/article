@@ -15,6 +15,8 @@ import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
 import com.mongodb.client.gridfs.model.GridFSFile;
 import com.octobus.article.entity.UserProfileEntity;
+import com.octobus.article.exception.UserAlreadyExistException;
+import com.octobus.article.exception.UserNotFoundException;
 import com.octobus.article.model.UserProfile;
 import com.octobus.article.repository.UserProfileRepository;
 
@@ -28,33 +30,42 @@ public class UserProfileService {
 	GridFsTemplate gridOperations;
 	
 	
-	public UserProfile createUserProfile(UserProfile userProfile){
-		
-		String photoId = saveProfileImage(userProfile);
-		
-		UserProfileEntity entity = new UserProfileEntity();
-		entity.setFirstName(userProfile.getFirstName());
-		entity.setLastName(userProfile.getLastName());
-		entity.setMiddleName(userProfile.getMiddleName());
-		entity.setDob(userProfile.getDob());
-		entity.setPhotoId(photoId);
-		entity.setEmailId(userProfile.getEmailId());
-		entity.setMyPassword(userProfile.getMyPassword());
-		entity.setCity(userProfile.getCity());
-		entity.setCountry(userProfile.getCountry());
-		entity.setUserActive(true);
-		entity.setWhenCreated(LocalDateTime.now());
-		entity.setWhenUpdated(LocalDateTime.now());
-		repository.save(entity);
-		userProfile.setUserActive(entity.isUserActive());
-		userProfile.setWhenCreated(entity.getWhenCreated());
-		userProfile.setWhenUpdated(entity.getWhenUpdated());
+	public UserProfile createUserProfile(UserProfile userProfile) throws UserAlreadyExistException{
+		if(!isUserExist(userProfile.getEmailId())){
+			String photoId = saveProfileImage(userProfile);
+			
+			UserProfileEntity entity = new UserProfileEntity();
+			entity.setFirstName(userProfile.getFirstName());
+			entity.setLastName(userProfile.getLastName());
+			entity.setMiddleName(userProfile.getMiddleName());
+			entity.setDob(userProfile.getDob());
+			entity.setPhotoId(photoId);
+			entity.setEmailId(userProfile.getEmailId());
+			entity.setMyPassword(userProfile.getMyPassword());
+			entity.setCity(userProfile.getCity());
+			entity.setCountry(userProfile.getCountry());
+			entity.setUserActive(true);
+			entity.setWhenCreated(LocalDateTime.now());
+			entity.setWhenUpdated(LocalDateTime.now());
+			repository.save(entity);
+			userProfile.setUserId(entity.getUserId());
+			userProfile.setUserActive(entity.isUserActive());
+			userProfile.setWhenCreated(entity.getWhenCreated());
+			userProfile.setWhenUpdated(entity.getWhenUpdated());
+			
+		}else{
+			throw new UserAlreadyExistException("User already exist with this email id");
+		}
 		return userProfile;
 	}
 	
-	public UserProfile getUserProfileByEmailId(String emailId){
+	public UserProfile getUserProfileByEmailId(String emailId) throws UserNotFoundException{
 		UserProfileEntity  entity = repository.findByEmailId(emailId);
+		if(null == entity){
+			throw new UserNotFoundException("User not found with this email id");
+		}
 		UserProfile userProfile = new UserProfile();
+		userProfile.setUserId(entity.getUserId());
 		userProfile.setFirstName(entity.getFirstName());
 		userProfile.setLastName(entity.getLastName());
 		userProfile.setMiddleName(entity.getMiddleName());
@@ -93,4 +104,11 @@ public class UserProfileService {
 		return new GridFsResource(imageFile);
 	}
 	
+	private boolean isUserExist(String emailId){
+		UserProfileEntity  entity = repository.findByEmailId(emailId);
+		if(null != entity){
+			return true;
+		}
+		return false;
+	}
 }

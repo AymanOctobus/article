@@ -2,11 +2,17 @@ package com.octobus.article.entity;
 
 import java.time.LocalDateTime;
 
-import org.springframework.web.multipart.MultipartFile;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
+import com.octobus.article.model.City;
+import com.octobus.article.model.Country;
+
+@Document(collection = "user_profile")
 public class UserProfileEntity {
 
-	public String id;
+	@Id
+	private String userId;
 	private String firstName;
 	private String lastName;
 	private String middleName;
@@ -17,14 +23,15 @@ public class UserProfileEntity {
 	private boolean isUserActive;
 	private LocalDateTime whenCreated;
 	private LocalDateTime whenUpdated;
-	private String city;
-	private String country;
+	private City city;
+	private Country country;
 	
-	public String getId() {
-		return id;
+	
+	public String getUserId() {
+		return userId;
 	}
-	public void setId(String id) {
-		this.id = id;
+	public void setUserId(String userId) {
+		this.userId = userId;
 	}
 	public String getFirstName() {
 		return firstName;
@@ -87,16 +94,16 @@ public class UserProfileEntity {
 	public void setMyPassword(String myPassword) {
 		this.myPassword = myPassword;
 	}
-	public String getCity() {
+	public City getCity() {
 		return city;
 	}
-	public void setCity(String city) {
+	public void setCity(City city) {
 		this.city = city;
 	}
-	public String getCountry() {
+	public Country getCountry() {
 		return country;
 	}
-	public void setCountry(String country) {
+	public void setCountry(Country country) {
 		this.country = country;
 	}
 }

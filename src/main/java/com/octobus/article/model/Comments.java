@@ -6,7 +6,6 @@ public class Comments {
 
 	private String commentedBy;
 	private String comment;
-	private String profilePhoto;
 	private LocalDateTime commentedDate;
 	
 	public String getCommentedBy() {
@@ -20,12 +19,6 @@ public class Comments {
 	}
 	public void setComment(String comment) {
 		this.comment = comment;
-	}
-	public String getProfilePhoto() {
-		return profilePhoto;
-	}
-	public void setProfilePhoto(String profilePhoto) {
-		this.profilePhoto = profilePhoto;
 	}
 	public LocalDateTime getCommentedDate() {
 		return commentedDate;

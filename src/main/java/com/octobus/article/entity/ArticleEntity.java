@@ -10,7 +10,7 @@ import com.octobus.article.model.Comments;
 import com.octobus.article.model.Point;
 
 
-@Document
+@Document(collection = "article")
 public class ArticleEntity {
 
 	@Id
