@@ -21,51 +21,64 @@ import com.octobus.article.exception.ProfilePhotoNotFoundException;
 @Service
 public class FileStorageService {
 
-    private final Path fileStorageLocation;
+    private final Path photoStorageLocation;
+    private final Path videoStorageLocation;
 
     @Autowired
     public FileStorageService(FileStorageProperties fileStorageProperties) {
-        this.fileStorageLocation = Paths.get(fileStorageProperties.getUploadDir())
+        this.photoStorageLocation = Paths.get(fileStorageProperties.getPhotoUploadDir())
+                .toAbsolutePath().normalize();
+        this.videoStorageLocation = Paths.get(fileStorageProperties.getVideoUploadDir())
                 .toAbsolutePath().normalize();
 
         try {
-            Files.createDirectories(this.fileStorageLocation);
+            Files.createDirectories(this.photoStorageLocation);
+            Files.createDirectories(this.videoStorageLocation);
         } catch (Exception ex) {
             throw new FileStorageException("Could not create the directory where the uploaded files will be stored.", ex);
         }
     }
 
-    public String storeFile(MultipartFile file) {
+    public String storeFile(MultipartFile file, String userOrArticleId, boolean isPhoto) {
         // Normalize file name
         String fileName = StringUtils.cleanPath(file.getOriginalFilename());
-
+        Path targetLocation = null;
+        Path userDir = null;
         try {
-            // Check if the file's name contains invalid characters
-            if(fileName.contains("..")) {
-                throw new FileStorageException("Sorry! Filename contains invalid path sequence " + fileName);
+            if(isPhoto){
+            	userDir = Paths.get(photoStorageLocation.toString(),userOrArticleId);
+            	Files.createDirectories(userDir);
+            	targetLocation = userDir.resolve(fileName);
+            }else{
+            	userDir = Paths.get(videoStorageLocation.toString(),userOrArticleId);
+            	Files.createDirectories(userDir);
+                targetLocation = userDir.resolve(fileName);
+
             }
-
-            // Copy file to the target location (Replacing existing file with the same name)
-            Path targetLocation = this.fileStorageLocation.resolve(fileName);
             Files.copy(file.getInputStream(), targetLocation, StandardCopyOption.REPLACE_EXISTING);
-
             return fileName;
         } catch (IOException ex) {
             throw new FileStorageException("Could not store file " + fileName + ". Please try again!", ex);
         }
     }
 
-    public Resource loadFileAsResource(String fileName) {
+    public Resource loadFileAsResource(String fileName, String userOrArticleId, boolean isPhoto) {
         try {
-            Path filePath = this.fileStorageLocation.resolve(fileName).normalize();
+        	Path userDir = null;
+        	if(isPhoto){
+        		userDir = Paths.get(photoStorageLocation.toString(),userOrArticleId);
+        	}else{
+        		userDir = Paths.get(videoStorageLocation.toString(),userOrArticleId);
+        	}
+            Path filePath = userDir.resolve(fileName).normalize();
             Resource resource = new UrlResource(filePath.toUri());
             if(resource.exists()) {
                 return resource;
             } else {
-                throw new ProfilePhotoNotFoundException("Photo not found " + fileName);
+                throw new ProfilePhotoNotFoundException("File not found " + fileName);
             }
         } catch (MalformedURLException ex) {
-            throw new ProfilePhotoNotFoundException("Photo not found " + fileName, ex);
+            throw new ProfilePhotoNotFoundException("File not found " + fileName, ex);
         }
     }
 }

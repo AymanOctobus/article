@@ -3,6 +3,7 @@ package com.octobus.article.service;
 import java.io.IOException;
 import java.io.InputStream;
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.query.Criteria;
@@ -26,20 +27,15 @@ public class UserProfileService {
 	@Autowired
 	private UserProfileRepository repository;
 	
-	@Autowired
-	GridFsTemplate gridOperations;
-	
 	
 	public UserProfile createUserProfile(UserProfile userProfile) throws UserAlreadyExistException{
-		if(!isUserExist(userProfile.getEmailId())){
-			String photoId = saveProfileImage(userProfile);
-			
+		if(!isUserExist(userProfile.getEmailId())){			
 			UserProfileEntity entity = new UserProfileEntity();
 			entity.setFirstName(userProfile.getFirstName());
 			entity.setLastName(userProfile.getLastName());
 			entity.setMiddleName(userProfile.getMiddleName());
 			entity.setDob(userProfile.getDob());
-			entity.setPhotoId(photoId);
+			entity.setPhoto(null);
 			entity.setEmailId(userProfile.getEmailId());
 			entity.setMyPassword(userProfile.getMyPassword());
 			entity.setCity(userProfile.getCity());
@@ -70,8 +66,7 @@ public class UserProfileService {
 		userProfile.setLastName(entity.getLastName());
 		userProfile.setMiddleName(entity.getMiddleName());
 		userProfile.setDob(entity.getDob());
-		//TODO : set the profile photo url
-		userProfile.setPhoto(null);
+		userProfile.setPhoto(entity.getPhoto());
 		userProfile.setEmailId(entity.getEmailId());
 		userProfile.setMyPassword(entity.getMyPassword());
 		userProfile.setUserActive(entity.isUserActive());
@@ -82,33 +77,20 @@ public class UserProfileService {
 		return userProfile;
 	}
 	
-	private String saveProfileImage(UserProfile userProfile) {
-		String imageId = null;
-		if(null != userProfile.getPhoto()){
-			try{
-				DBObject metaData = new BasicDBObject();
-				InputStream imageStream = userProfile.getPhoto().getInputStream();
-				metaData.put("emailId", userProfile.getEmailId());
-				imageId = gridOperations.store(imageStream, userProfile.getPhoto().getOriginalFilename(),userProfile.getPhoto().getContentType(), metaData).get().toString();
-				System.out.println("ImageFileId = " + imageId);
-			}catch(IOException e){
-				e.printStackTrace();
-			}
-			
-		}
-		return imageId;
-	}
-	
-	public GridFsResource retrieveProfileImage(String imageId, String fileName){
-		GridFSFile imageFile = gridOperations.findOne(new Query(Criteria.where("_id").is(imageId).and("filename").is(fileName)));
-		return new GridFsResource(imageFile);
-	}
-	
 	private boolean isUserExist(String emailId){
 		UserProfileEntity  entity = repository.findByEmailId(emailId);
 		if(null != entity){
 			return true;
 		}
 		return false;
+	}
+
+	public void updateUserProfile(String userId,String profilePhotoUri) {
+		Optional<UserProfileEntity>  optional = repository.findById(userId);
+		if(optional.isPresent()){
+			UserProfileEntity entity = optional.get();
+			entity.setPhoto(profilePhotoUri);
+			repository.save(entity);
+		}	
 	}
 }

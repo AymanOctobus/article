@@ -11,7 +11,7 @@ public class UserProfile {
 	private String lastName;
 	private String middleName;
 	private String dob;
-	private MultipartFile photo;
+	private String photo;
 	private String emailId;
 	private String myPassword;
 	private boolean isUserActive;
@@ -76,10 +76,10 @@ public class UserProfile {
 	public void setWhenUpdated(LocalDateTime whenUpdated) {
 		this.whenUpdated = whenUpdated;
 	}
-	public MultipartFile getPhoto() {
+	public String getPhoto() {
 		return photo;
 	}
-	public void setPhoto(MultipartFile photo) {
+	public void setPhoto(String photo) {
 		this.photo = photo;
 	}
 	public String getMyPassword() {

@@ -18,9 +18,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.octobus.article.exception.UserAlreadyExistException;
 import com.octobus.article.exception.UserNotFoundException;
+import com.octobus.article.model.UploadFileResponse;
 import com.octobus.article.model.UserProfile;
 import com.octobus.article.service.FileStorageService;
 import com.octobus.article.service.UserProfileService;
@@ -56,15 +58,21 @@ public class UserProfileController {
 		
 	}
 
-	@PostMapping(value="user/profile/{userId}/photo")
-	public ResponseEntity<Object> uploadProfilePhoto(@RequestParam("file") MultipartFile file){
-		String fileName = fileStorageService.storeFile(file);
-        return new ResponseEntity<>("Profile photo uploaded successfully", HttpStatus.OK);
+	@PostMapping(value="user/profile/photo/{userId}")
+	public ResponseEntity<UploadFileResponse> uploadProfilePhoto(@RequestParam("file") MultipartFile file,@PathVariable("userId") String userId){
+		String fileName = fileStorageService.storeFile(file,userId,true);
+		String profilePhotoUri = ServletUriComponentsBuilder.fromCurrentContextPath()
+                .path("/user/profile/photo/"+userId+"/")
+                .path(fileName)
+                .toUriString();
+		service.updateUserProfile(userId,profilePhotoUri);
+        return new ResponseEntity<>(new UploadFileResponse(fileName, profilePhotoUri,
+                file.getContentType(), file.getSize()), HttpStatus.OK);
 	}
 	
-	@GetMapping(value="user/profile/{userId}/photo/")
-	public ResponseEntity<Resource> downloadFile(@PathVariable String fileName, HttpServletRequest request) {
-        Resource resource = fileStorageService.loadFileAsResource(fileName);
+	@GetMapping(value="user/profile/photo/{userId}/{fileName}")
+	public ResponseEntity<Resource> downloadProfilePhoto(@PathVariable("userId") String userId, @PathVariable("fileName") String fileName, HttpServletRequest request) {
+        Resource resource = fileStorageService.loadFileAsResource(fileName,userId,true);
         String contentType = null;
         try {
             contentType = request.getServletContext().getMimeType(resource.getFile().getAbsolutePath());
@@ -75,7 +83,7 @@ public class UserProfileController {
         }
         return ResponseEntity.ok()
                 .contentType(MediaType.parseMediaType(contentType))
-                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + resource.getFilename() + "\"")
+                .header(HttpHeaders.CONTENT_DISPOSITION, "inline; filename=\"" + resource.getFilename() + "\"")
                 .body(resource);
     }
 

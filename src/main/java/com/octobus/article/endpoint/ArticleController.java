@@ -30,6 +30,12 @@ public class ArticleController {
 		return new ResponseEntity<>(createdArcticle,HttpStatus.CREATED);
 	}
 	
+	@PostMapping("site/article")
+	public ResponseEntity<Article> createArticle(@RequestBody Article article){
+		Article createdArtile = service.createArticle(article);
+		return new ResponseEntity<>(createdArtile,HttpStatus.CREATED);
+	}
+	
 	@GetMapping("site/articles")
 	public ResponseEntity<List<Article>> getArticles(){
 		List<Article> arcticles =service.getArticles();

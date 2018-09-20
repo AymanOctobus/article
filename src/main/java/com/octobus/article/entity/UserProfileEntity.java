@@ -17,7 +17,7 @@ public class UserProfileEntity {
 	private String lastName;
 	private String middleName;
 	private String dob;
-	private String photoId;
+	private String photo;
 	private String emailId;
 	private String myPassword;
 	private boolean isUserActive;
@@ -58,11 +58,11 @@ public class UserProfileEntity {
 		this.dob = dob;
 	}
 	
-	public String getPhotoId() {
-		return photoId;
+	public String getPhoto() {
+		return photo;
 	}
-	public void setPhotoId(String photoId) {
-		this.photoId = photoId;
+	public void setPhoto(String photo) {
+		this.photo = photo;
 	}
 	public String getEmailId() {
 		return emailId;
