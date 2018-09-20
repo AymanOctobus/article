@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.octobus.article.entity.ArticleEntity;
+import com.octobus.article.entity.UserProfileEntity;
 import com.octobus.article.model.Article;
 import com.octobus.article.model.ArticleUploadRequest;
 import com.octobus.article.model.ArticleUploadResponse;
@@ -125,6 +126,15 @@ public class ArticleService {
 		articleUploadResponse.setArticleId(entity.getArticleId());
 		articleUploadResponse.setWhenPosted(entity.getWhenCreated());
 		return articleUploadResponse;
+	}
+
+	public void updateArticleVideo(String articleId,String videoUri) {
+		Optional<ArticleEntity>  optional = repository.findById(articleId);
+		if(optional.isPresent()){
+			ArticleEntity entity = optional.get();
+			entity.setVideo(videoUri);
+			repository.save(entity);
+		}	
 	}
 	
 	
